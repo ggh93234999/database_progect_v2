@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '.hy0936.com.tw',
     '127.0.0.1',
+    '114.32.228.69',
 ]
 
 

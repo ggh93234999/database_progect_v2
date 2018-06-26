@@ -19,11 +19,11 @@ class Events(models.Model):
 
 class Teams(models.Model):
     name = models.CharField(max_length = 20)
-    event_id = models.ForeignKey(Events, on_delete = models.DO_NOTHING)
+    event_id = models.ForeignKey(Events, on_delete = models.CASCADE)
 
 class Teammembers(models.Model):
-    team_id = models.ForeignKey(Teams, on_delete = models.DO_NOTHING)
-    user_id = models.ForeignKey(User, on_delete = models.DO_NOTHING)
+    team_id = models.ForeignKey(Teams, on_delete = models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete = models.CASCADE)
 
 class Announcements(models.Model):
     title = models.CharField(max_length = 100)

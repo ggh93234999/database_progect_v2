@@ -31,7 +31,7 @@ class EventsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AnnouncementsSerializer(serializers.ModelSerializer):
-    class meta:
+    class Meta:
         model = Announcements
         fields = '__all__'
 
