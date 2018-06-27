@@ -20,12 +20,12 @@ from databases import views
 from rest_framework_jwt.views import obtain_jwt_token
 
 router = DefaultRouter()
-router.register(r'User',views.UserViewSet)
-router.register(r'User_profiles',views.User_profilesViewSet)
-router.register(r'Events',views.EventsViewSet)
-router.register(r'Teams',views.TeamsViewSet)
-router.register(r'Teammembers',views.TeammembersViewSet)
-router.register(r'Announcements',views.AnnouncementsViewSet)
+router.register(r'user',views.UserViewSet)
+router.register(r'user_profile',views.User_profilesViewSet)
+router.register(r'event',views.EventsViewSet)
+router.register(r'team',views.TeamsViewSet)
+router.register(r'teammember',views.TeammembersViewSet)
+router.register(r'announcement',views.AnnouncementsViewSet)
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
