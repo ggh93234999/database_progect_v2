@@ -13,6 +13,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
+from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -45,6 +47,33 @@ class EventsViewSet(viewsets.ModelViewSet):
 class TeamsViewSet(viewsets.ModelViewSet):
     queryset = Teams.objects.all()
     serializer_class = TeamsSerializer
+    
+    def update(self, request, pk=None):
+        team = self.get_object()
+        serializer = TeamsSerializer(team, data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            try:
+                if serializer.data['vertify']:
+                    teamid = serializer.data['id']
+                    da = Teammembers.objects.filter(team_id=teamid)
+                    se = TeammembersSerializer(da, many = True)
+                    emails=[]
+                    for i in se.data:
+                        us = User.objects.get(pk=i['user_id'])
+                        se_us = UserSerializer(us)
+                        emails.append(se_us.data['email'])
+                    print(emails)
+                    send_mail(
+                        'event register successful',
+                        'good good be good',
+                        '<nctudatabase@gmail.com>',
+                        emails
+                    )
+            except:
+                print("some one not good");
+            return Response(serializer.data)
+        return Response(serializer,errors, status = status.HTTP_400_REQUEST)
 
 class TeammembersViewSet(viewsets.ModelViewSet):
     queryset = Teammembers.objects.all()
@@ -53,45 +82,5 @@ class TeammembersViewSet(viewsets.ModelViewSet):
 class AnnouncementsViewSet(viewsets.ModelViewSet):
     queryset = Announcements.objects.all()
     serializer_class = AnnouncementsSerializer
-
-from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponse
-from databases.models import User_profiles
-
-def Signup(request):
-    
-    if request.method == 'POST':
-        try:
-            print('in post QQQQ')
-
-            uname = request.POST['username']
-            upass = request.POST['password']
-            umail = request.POST['email']
-            rname = request.POST['name']
-            rgender = request.POST['gender']
-            print(uname,upass,umail,rname)
-            tmp_new_user = User.objects.create_user(uname,umail,upass)
-            print(tmp_new_user.id)
-            tmp = User_profiles(user = tmp_new_user, name = rname, gender = rgender)
-            print(tmp)
-            tmp.save()
-            return HttpResponse("Create Successful")
-
-        except:
-            response = HttpResponse("Something Error")
-            response.status_code = 400
-            return response
-
-
-
-
-#===============after here is test================
-#@api_view(['GET'])i
-#def UserViewSer(request)
-#    if request.method == 'GET':
-#        Uset = User_profiles.objects.all()
-#        Rset = User.objects.all()
-#        serializer = UserSerializer()
-
 
 
