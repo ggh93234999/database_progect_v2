@@ -26,7 +26,7 @@ router.register(r'event',views.EventsViewSet)
 router.register(r'team',views.TeamsViewSet)
 router.register(r'teammember',views.TeammembersViewSet)
 router.register(r'announcement',views.AnnouncementsViewSet)
-
+# no
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
     path('admin/', admin.site.urls),
