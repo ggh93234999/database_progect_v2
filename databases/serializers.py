@@ -10,11 +10,12 @@ from django.utils.encoding import force_bytes, force_text
 
 
 
-class UserSerializer(serializers.ModelSerializer):
-    
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    userid = serializers.IntegerField(source = 'profile.pk',read_only=True)
+
     class Meta:
         model = User
-        fields = ('id','username', 'email', 'password','is_active')
+        fields = ('id','username', 'email', 'password','is_active', 'userid')
         extra_kwargs = {'password': {'write_only': True}, 'id':{'read_only':True}}
     
     def create(self, validated_data):
@@ -76,4 +77,7 @@ class AnnouncementsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Announcements
         fields = '__all__'
+
+#class UserdataSerializer(serlizers.)
+
 

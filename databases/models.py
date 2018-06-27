@@ -12,8 +12,6 @@ class User_profiles(models.Model):
     name = models.CharField(max_length = 50, default='noname')
     gender = models.IntegerField(default = 0)
     role_id = models.IntegerField(default = 0)
-    is_confirmation = models.BooleanField(default = False)
-    token = models.CharField(max_length=50, default = 'QAQ')
 
 class Events(models.Model):
     name = models.CharField(max_length = 100)
