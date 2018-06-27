@@ -58,15 +58,17 @@ class User_profilesSerializer(serializers.ModelSerializer):
         model = User_profiles
         fields = '__all__'
 
-class TeamsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Teams
-        fields = '__all__'
-
 class TeammembersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teammembers
         fields = '__all__'
+
+class TeamsSerializer(serializers.ModelSerializer):
+    track_team = TeammembersSerializer(many = True, read_only = True)
+
+    class Meta:
+        model = Teams
+        fields = ('id','name','vertify','updated_at','created_at','event_id','track_team');
 
 class EventsSerializer(serializers.ModelSerializer):
     class Meta:

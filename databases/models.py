@@ -35,8 +35,11 @@ class Teams(models.Model):
     created_at = models.DateTimeField(auto_now=True,blank = True)
 
 class Teammembers(models.Model):
-    team_id = models.ForeignKey(Teams, on_delete = models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete = models.CASCADE)
+    team_id = models.ForeignKey(Teams, on_delete = models.CASCADE, related_name='track_team')
+    user_id = models.ForeignKey(User, on_delete = models.CASCADE, related_name='track_user')
+
+    def __unicode__(self):
+        return self.user_id
 
 class Announcements(models.Model):
     title = models.CharField(max_length = 60)
