@@ -33,6 +33,6 @@ urlpatterns = [
     path('api/',include(router.urls)),
     path('api-token-auth/',obtain_jwt_token),
     path('signup/',views.Signup),
-
+    path('activate/<int:uidb64>/<str:token>/',views.activate, name='activate'),
 
 ]
