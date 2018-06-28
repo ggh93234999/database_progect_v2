@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils import timezone
 # Create your models here.
 
 class User_profiles(models.Model):
@@ -26,6 +26,11 @@ class Events(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null = True)
+
+
+    def delete(self):
+        self.deleted_at=timezone.now()
+        self.save()
 
 class Teams(models.Model):
     name = models.CharField(max_length = 30)
