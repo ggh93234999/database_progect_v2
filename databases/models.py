@@ -25,7 +25,7 @@ class Events(models.Model):
     regist_end = models.DateTimeField(default=datetime.now, blank=True) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    deleted_at = models.DateTimeField(default=datetime.now,blank = True)
+    deleted_at = models.DateTimeField(null = True)
 
 class Teams(models.Model):
     name = models.CharField(max_length = 30)
