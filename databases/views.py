@@ -68,7 +68,9 @@ class TeamsViewSet(viewsets.ModelViewSet):
             member_min = event.member_min
             member_max = event.member_max
             if cnt < member_min or member_max < cnt:
-                request2['vertify']='false'
+                request2['vertify']='87'
+                content = "the numbers of member must include %d and %d, your numbers of member is %d" % (member_min, member_max, cnt) 
+                return Response(content, status = status.HTTP_400_BAD_REQUEST)
 
         serializer = TeamsSerializer(team, data = request2)
 
@@ -83,7 +85,7 @@ class TeamsViewSet(viewsets.ModelViewSet):
                     emails
                 )
             return Response(serializer.data)
-        return Response(serializer,errors, status = status.HTTP_400_REQUEST)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 class TeammembersViewSet(viewsets.ModelViewSet):
     queryset = Teammembers.objects.all()

@@ -40,7 +40,7 @@ class Teams(models.Model):
     event_id = models.ForeignKey(Events, on_delete = models.CASCADE)
     vertify = models.BooleanField(default = False)
     updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now=True,blank = True)
+    created_at = models.DateTimeField(auto_now_add=True,blank = True)
 
 class Teammembers(models.Model):
     team_id = models.ForeignKey(Teams, on_delete = models.CASCADE, related_name='track_team')
