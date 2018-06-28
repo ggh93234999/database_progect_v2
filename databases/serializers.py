@@ -9,13 +9,24 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 
 
+class TeammembersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teammembers
+        fields = '__all__'
+
+class TeamsSerializer(serializers.ModelSerializer):
+    track_team = TeammembersSerializer(many = True, read_only = True)
+
+    class Meta:
+        model = Teams
+        fields = ('id','name','vertify','updated_at','created_at','event_id','track_team');
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     userid = serializers.IntegerField(source = 'profile.pk',read_only=True)
-
+    track_user = TeammembersSerializer(many = True, read_only= True)
     class Meta:
         model = User
-        fields = ('id','username', 'email', 'password','is_active', 'userid')
+        fields = ('id','username', 'email', 'password','is_active', 'userid','track_user')
         extra_kwargs = {'password': {'write_only': True}, 'id':{'read_only':True}}
     
     def create(self, validated_data):
@@ -58,17 +69,7 @@ class User_profilesSerializer(serializers.ModelSerializer):
         model = User_profiles
         fields = '__all__'
 
-class TeammembersSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Teammembers
-        fields = '__all__'
 
-class TeamsSerializer(serializers.ModelSerializer):
-    track_team = TeammembersSerializer(many = True, read_only = True)
-
-    class Meta:
-        model = Teams
-        fields = ('id','name','vertify','updated_at','created_at','event_id','track_team');
 
 class EventsSerializer(serializers.ModelSerializer):
     class Meta:
