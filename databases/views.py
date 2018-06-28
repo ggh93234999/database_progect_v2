@@ -76,11 +76,11 @@ class TeamsViewSet(viewsets.ModelViewSet):
 
         if serializer.is_valid():
             serializer.save()
-                        
+            content = "Hi team %s,\n\n you have registered Successfully.\n if you have any question about this please contact us\n email: nctudatabase@gmail.com\n" % (serializer.data['name'])
             if serializer.data['verify']:
                 send_mail(
-                    'event register successful',
-                    'good good be good',
+                    'event register accomplished',
+                    content,
                     '<nctudatabase@gmail.com>',
                     emails
                 )
