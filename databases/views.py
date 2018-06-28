@@ -52,28 +52,36 @@ class TeamsViewSet(viewsets.ModelViewSet):
     
     def update(self, request, pk=None):
         team = self.get_object()
-        serializer = TeamsSerializer(team, data = request.data)
+        emails=[]
+        request2 = request.data.copy()
+        
+        if request2.getlist('vertify','false'):
+            teamid = team.id
+            da = Teammembers.objects.filter(team_id=teamid)
+            se = TeammembersSerializer(da, many = True)
+            for i in se.data:
+                us = User.objects.get(pk=i['user_id'])
+                emails.append(us.email)
+            cnt = len(emails)
+            event_id = request.data['event_id']
+            event = Events.objects.get(pk = event_id)
+            member_min = event.member_min
+            member_max = event.member_max
+            if cnt < member_min or member_max < cnt:
+                request2['vertify']='false'
+
+        serializer = TeamsSerializer(team, data = request2)
+
         if serializer.is_valid():
             serializer.save()
-            try:
-                if serializer.data['vertify']:
-                    teamid = serializer.data['id']
-                    da = Teammembers.objects.filter(team_id=teamid)
-                    se = TeammembersSerializer(da, many = True)
-                    emails=[]
-                    for i in se.data:
-                        us = User.objects.get(pk=i['user_id'])
-                        se_us = UserSerializer(us)
-                        emails.append(se_us.data['email'])
-                    print(emails)
-                    send_mail(
-                        'event register successful',
-                        'good good be good',
-                        '<nctudatabase@gmail.com>',
-                        emails
-                    )
-            except:
-                print("some one not good");
+                        
+            if serializer.data['vertify']:
+                send_mail(
+                    'event register successful',
+                    'good good be good',
+                    '<nctudatabase@gmail.com>',
+                    emails
+                )
             return Response(serializer.data)
         return Response(serializer,errors, status = status.HTTP_400_REQUEST)
 
