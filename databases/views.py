@@ -55,7 +55,7 @@ class TeamsViewSet(viewsets.ModelViewSet):
         emails=[]
         request2 = request.data.copy()
         
-        if request2.getlist('vertify','false'):
+        if request2.getlist('verify','false'):
             teamid = team.id
             da = Teammembers.objects.filter(team_id=teamid)
             se = TeammembersSerializer(da, many = True)
@@ -68,7 +68,7 @@ class TeamsViewSet(viewsets.ModelViewSet):
             member_min = event.member_min
             member_max = event.member_max
             if cnt < member_min or member_max < cnt:
-                request2['vertify']='87'
+                request2['verify']='87'
                 content = "the numbers of member must include %d and %d, your numbers of member is %d" % (member_min, member_max, cnt) 
                 return Response(content, status = status.HTTP_400_BAD_REQUEST)
 
@@ -77,7 +77,7 @@ class TeamsViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
                         
-            if serializer.data['vertify']:
+            if serializer.data['verify']:
                 send_mail(
                     'event register successful',
                     'good good be good',

@@ -38,7 +38,7 @@ class Events(models.Model):
 class Teams(models.Model):
     name = models.CharField(max_length = 30)
     event_id = models.ForeignKey(Events, on_delete = models.CASCADE)
-    vertify = models.BooleanField(default = False)
+    verify = models.BooleanField(default = False)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True,blank = True)
 

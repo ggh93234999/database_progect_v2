@@ -19,7 +19,7 @@ class TeamsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Teams
-        fields = ('id','name','vertify','updated_at','created_at','event_id','track_team');
+        fields = ('id','name','verify','updated_at','created_at','event_id','track_team');
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     userid = serializers.IntegerField(source = 'profile.pk',read_only=True)
